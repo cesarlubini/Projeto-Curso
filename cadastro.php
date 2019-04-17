@@ -7,13 +7,16 @@
     $email = $_REQUEST["email"];
     $senha = $_REQUEST["senha"];
     $confirmarSenha = $_REQUEST["confirmarSenha"];
+
     //verificando se a senha é igual a corfirmar senha
     if ($senha == $confirmarSenha) { 
+      //criptografando a senha
+      $senhaCrip = password_hash($senha, PASSWORD_DEFAULT);
       // criando novo usuário
       $novoUsuario = [
         "nome" => $nome,
         "email" => $email,
-        "senha" => $senha
+        "senha" => $senhaCrip
       ];
       // cadastro meu usuario no json
       $cadastrou = cadastrarUsuario($novoUsuario);
