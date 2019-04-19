@@ -1,22 +1,24 @@
 <?php 
-	$usuario = [
-    "Nome" => "Cesar",
-    "Email" => "teste@teste.com",
-    "Senha" => "123456",
-    "NivelAcesso" => mt_rand(0,1)
-  ];
+	session_start();
+	$nomeLogado = $_SESSION["nome"];
+	$emailLogado = $_SESSION["email"];
+	$nivelAcesso = $_SESSION["nivelAcesso"];
+
+	if(!isset($_SESSION["logado"])) {
+		header("location: login.php");
+	}
 ?>
 
 <header>
 <nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
-					<a class="navbar-brand" href="#">
+					<a class="navbar-brand" href="index.php">
 							<span>Cursos</span>
 					</a>
 			</div>
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<?php if($usuario["NivelAcesso"] == 1) : ?>
+				<?php if($nivelAcesso == 1) : ?>
 					<ul class="nav navbar-nav">
 						<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ações<span class="caret"></span></a>
@@ -36,8 +38,9 @@
 			<p class="navbar-text navbar-right">
 				Logado como
 				<strong>
-					<a href="#"><?php echo $usuario["Nome"];?></a>
+					<a href="usuario.php"><?php echo $nomeLogado; ?></a>
 				</strong>
+				<a href="inc/logout.php" class="btn btn-danger">Logout</a>
 			</p>
 			</div>
 		</div>
