@@ -1,27 +1,53 @@
 <?php 
 
-
   function cadastrarUsuario ($usuario) {
-    
+    try {
+      global $conexao;
+      $query = $conexao->prepare("INSERT INTO usuarios (nome,email,senha, tipo_usuario_fk) VALUES (:nome,:email,:senha, 3)");
+      
+      $query->execute([
+        ':nome' => $usuario['nome'],
+        ':email' => $usuario['email'],
+        ':senha' => $usuario['senha']
+      ]);
+
+      $usuario = $query->fetchAll(PDO::FETCH_ASSOC);
+  
+      $conexao = null;
+  
+    } catch( PDOException $Exception) {
+      echo $Exception->getMessage();
+    }
+
+    return true;
   }
 
   function logarUsuario($email, $senha) {
-    global $nomeArquivo;
-    $nomeLogado = "";
-    // pegando o conteúdo do arquivo usuarios.json
-    $usuariosJson = file_get_contents($nomeArquivo);
-    // transformando o json em array associativo
-    $arrayUsuarios = json_decode($usuariosJson, true);
+    try {
+      global $conexao;
 
-    // verifica se o usuario existe no arquivo usuarios.json
-    foreach ($arrayUsuarios["usuarios"] as $chave => $valor) {
-      //verificando se email e senha são iguais ao do json
-      if ($valor["email"] == $email && password_verify($senha, $valor["senha"])) {
-        $nomeLogado = $valor["nome"];
-        break;
+      $query = $conexao->prepare("SELECT * FROM usuarios WHERE email = :email");
+
+      $query->execute([
+        ':email' => $email
+      ]);
+
+      $usuario = $query->fetch(PDO::FETCH_ASSOC);
+
+      if($usuario['email'] == $email && password_verify($senha, $usuario['senha'])) {
+        $infoLogado = [
+          "nomeUsuario" => $usuario['nome'],
+          "tipoUsuario" => $usuario['tipo_usuario_fk']
+        ];
+
+        var_dump($infoLogado);
       }
+
+    } catch ( PDOException $Exception) {
+      echo $Exception->getMessage();
     }
-    return $nomeLogado;
+
+    return $infoLogado;
   }
 
 ?>
