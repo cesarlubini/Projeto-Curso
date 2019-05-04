@@ -23,6 +23,9 @@
   }
 
   function logarUsuario($email, $senha) {
+
+    $infoLogado = false;
+
     try {
       global $conexao;
 
@@ -40,14 +43,14 @@
           "tipoUsuario" => $usuario['tipo_usuario_fk']
         ];
 
-        var_dump($infoLogado);
+        return $infoLogado;
       }
 
     } catch ( PDOException $Exception) {
       echo $Exception->getMessage();
     }
 
-    return $infoLogado;
+    
   }
 
 ?>

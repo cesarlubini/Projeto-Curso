@@ -27,7 +27,7 @@
 			<?php foreach ($cursos as $key => $infosCurso) : ?>
 				<div class="col-sm-6 col-md-6">
 					<div class="thumbnail">
-					<img src="assets/img/<?php echo $infosCurso['image']; ?>" alt="<?php echo "Foto Curso $nomeCurso"; ?>">
+					<img src="assets/img/produtos/<?php echo $infosCurso['image']; ?>" alt="<?php echo "Foto Curso " . $infosCurso['nome']; ?>">
 						<div class="caption">
 							<h3><?php echo $infosCurso['nome']; ?></h3>
 							<p><?php echo $infosCurso['descricao']; ?></p>
